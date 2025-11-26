@@ -8,7 +8,7 @@ import sys
 BASE_URL = "http://localhost:8000"  # Backend endpoint
 
 st.set_page_config(
-    page_title="🌍 Travel Planner Agentic Application",
+    page_title="AI Trip Planner Agentic Application",
     page_icon="🌍",
     layout="centered",
     initial_sidebar_state="expanded",
@@ -40,10 +40,6 @@ if submit_button and user_input.strip():
             answer = response.json().get("answer", "No answer returned.")
             markdown_content = f"""# 🌍 AI Travel Plan
 
-            # **Generated:** {datetime.datetime.now().strftime('%Y-%m-%d at %H:%M')}  
-            # **Created by:** Atriyo's Travel Agent
-
-            ---
 
             {answer}
 

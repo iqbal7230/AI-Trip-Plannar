@@ -15,9 +15,24 @@ class CalculatorTool:
             return self.calculator.multiply(float(price_per_night), float(total_days))
         
         @tool
-        def calculate_total_expense(*costs: float) -> float:
-            """Calculate total expense of the trip"""
-            return self.calculator.calculate_total(*costs)
+        def calculate_total_expense(*args: float, costs: list[float] | None = None) -> float:
+            """Calculate total expense of the trip.
+
+            Accepts either positional numbers, or a keyword `costs` containing an
+            iterable (list/tuple) of numbers. This keeps the tool backwards
+            compatible with positional usage while allowing callers (or the
+            agent framework) to pass a `costs=` keyword.
+            """
+            if costs is not None:
+                if isinstance(costs, (list, tuple)):
+                    return self.calculator.calculate_total(*costs)
+                try:
+                    return self.calculator.calculate_total(float(costs))
+                except Exception:
+                    return 0.0
+
+            # fallback to positional args
+            return self.calculator.calculate_total(*args)
         
         @tool
         def calculate_daily_expense_budget(total_cost: float, days: int) -> float:
